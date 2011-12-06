@@ -12,6 +12,7 @@ Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 
 - [Cascalog Google Group](http://groups.google.com/group/cascalog-user)
 - `#cascalog` room on Freenode
+- [API Documentation](http://nathanmarz.github.com/cascalog/)
 
 ## Documentation
 
