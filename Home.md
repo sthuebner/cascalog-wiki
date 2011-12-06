@@ -49,4 +49,4 @@ Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 
 ## Other
 
-- [Who's using Cascalog](https://www.assembla.com/spaces/cascalog/wiki/Who's_using_Cascalog)
+- [[Who's using Cascalog]]
