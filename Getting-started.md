@@ -1,7 +1,7 @@
-**Make sure you have java 1.6**
-***export JAVA_OPTS=-Xmx768m**
-
 Cascalog is hosted at the [Clojars maven repo](http://clojars.org/cascalog).
+
+- Make sure you have java 1.6
+- `export JAVA_OPTS=-Xmx768m`
 
 ## Learning Cascalog
 
