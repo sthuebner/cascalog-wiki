@@ -6,7 +6,7 @@ Cascalog operates at a significantly higher level of abstraction than a tool lik
 
 Follow the getting started steps, check out the tutorials, and you'll be running Cascalog queries on your local computer within 5 minutes.
 
-Cascalog is hosted on Github at [http://github.com/nathanmarz/cascalog](http://github.com/nathanmarz/cascalog).
+Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 
 ## Getting help
 
