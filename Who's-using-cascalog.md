@@ -4,7 +4,7 @@
 <table>
 <tr>
 <td>
-<img src="http://www.factual.com/static_images/branding/large_color_logo_horizontal.png" width=250px />
+<img src="http://www.factual.com/static_images/branding/large_color_logo_horizontal.png" width=400px />
 </td>
 <td>
 <p>Factual is constantly aggregating and processing growing sets of data. We find ourselves relying more and more on the Hadoop stack of technologies. Cascalog has allowed us easy abstraction from details of data sources (with taps, as in cascading). More specifically, we use Cascalog to run our machine learning algorithms on billions of web pages and user contributed data to aggregate factual data present in multiple sources. We also benefit from the ad-hoc nature of Cascalog when doing things such as generating statistics across our datasets, verifying map-reduce job outputs, tracing the history of data through our processing pipeline, and running experimental data manipulation and transformations.</p>
