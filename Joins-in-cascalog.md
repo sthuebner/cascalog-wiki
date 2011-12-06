@@ -1,5 +1,6 @@
 Cascalog joins datasets that share variable names; this turns out to be quite a concise way to express complex relationships between datasets. Let's start our discussion by defining `age` and `gender`, two datasets that link customer names to these attributes. We'll use these datasets to discuss inner and outer joins.
 
+```clojure
     (def age [["alice" 28]
               ["bob" 33]
               ["chris" 40]
@@ -19,6 +20,7 @@ Cascalog joins datasets that share variable names; this turns out to be quite a 
                  ["gary" "m"]
                  ["harold" "m"]
                  ["luanne" "f"]])
+```
 
 ## Inner Join ##
 
