@@ -1,6 +1,3 @@
-<h2> Who's using Cascalog</h2>
-<br/>
-
 <table>
 <tr>
 <td>
