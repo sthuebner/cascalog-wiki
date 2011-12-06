@@ -28,10 +28,12 @@ An inner join between two datasets returns all tuples that satisfy the "join con
 
 An example query that triggers an inner join between `age` and `gender` through a shared `?name` variable would be
 
+```clojure
     (?<- (stdout)
          [?name ?age ?gender]
          (age ?name ?age)
          (gender ?name ?gender))
+```
 
 Executing this query produces these results:
 
@@ -51,11 +53,13 @@ The inner join drops Harold's and Kumar's records from the result set, as they e
 
 Here's a more interesting query that generates all female customers over the age of 25:
 
+```clojure
     (?<- (stdout)
          [?name ?age]
          (age ?name ?age)
          (gender ?name "f")
          (> ?age 25))
+```
 
 This query joins on the `?name` field, filter `?age` explicitly with clojure's `>` operator, and perform an implicit filtering constraint on gender by constraining the `?gender` var to the static value of `"f"`. (Powerful stuff!) This query produces
 
@@ -70,10 +74,12 @@ This query joins on the `?name` field, filter `?age` explicitly with clojure's `
 
 The inner join discussed above will drop tuples that don't exist in all datasets. To keep all data, Cascalog allows you to perform outer joins by using "ungrounding variables", prefixed with `!!`. In the following query, `!!age` and `!!gender` are ungrounding variables:
 
+```clojure
     (?<- (stdout)
          [?person !!age !!gender]
          (age ?person !!age)
          (gender ?person !!gender))
+```
 
 Executing this query generates the following results:
 
@@ -94,6 +100,7 @@ A predicate that contains an ungrounding variable is called an "unground predica
 
 Let's introduce `person` (our customer list) and `follows` (a dataset of folks our customers are interested in):
 
+```clojure
     (def person [["alice"]
                  ["bob"]
                  ["chris"]
@@ -121,31 +128,38 @@ Let's introduce `person` (our customer list) and `follows` (a dataset of folks o
                   ["harold" "bob"]
                   ["luanne" "harold"]
                   ["luanne" "gary"]])
+```
 
 Here's an example of a left join. To get all the follow relationships for each person in our dataset, or null if the person has no follow relationships, we run:
 
+```clojure
     (?<- (stdout)
          [?person1 !!person2]
          (person ?person1)
          (follows ?person1 !!person2))
+```
 
 To get all the people who do not have a follows relationship, we can run:
 
+```clojure
     (?<- (stdout)
          [?person]
          (person ?person)
          (follows ?person !!p2)
          (nil? !!p2))
+```
 
 Notice that the `(nil? !!p2)` predicate gets applied after `!!p2` gets joined to a ground predicate. This is an important part of the semantics of outer joins in Cascalog.
 
 Now let's say we want the follows count for each person. A normal "count" aggregation won't work because it counts the number of tuples and doesn't distinguish between null and non-null follows. In this case, we want null follows to be counted as 0 and non-null follows to be counted as 1. Cascalog has an aggregator called `!count` that does exactly this:
 
+```clojure
     (?<- (stdout)
          [?person ?count]
          (person ?person)
          (follows ?person !!p2)
          (c/!count !!p2 :> ?count))
+```
 
 ## Cross Joins ##
 
@@ -153,13 +167,16 @@ Inner joins return all records satisfying the equality constraint; how do we joi
 
 This is called a cross join, and produces behavior similar to clojure's `for` macro:
 
+```clojure
     (for [name ["wendy" "sam"], food ["cake" "burger"]]
       [name food])
 
     => (["wendy" "cake"] ["wendy" "burger"] ["sam" "cake"] ["sam" "burger"])
+```
 
 This is usually a mistake, and causes a massive tuple blowup, but if you must do this, it's possible to trigger a cross-join by including `(cross-join)` as a predicate in your query:
 
+```clojure
     (let [name [["wendy"] ["sam"]]
           food [["cake"] ["burger"]]]
       (??<- [?name ?food]
@@ -168,5 +185,6 @@ This is usually a mistake, and causes a massive tuple blowup, but if you must do
             (cross-join)))
 
     => (["sam" "burger"] ["sam" "cake"] ["wendy" "burger"] ["wendy" "cake"])
+```
 
 Note that `??<-` defines a query, executes it, and returns the result in the form of a clojure sequence, as discussed [[Defining and executing queries|here]].

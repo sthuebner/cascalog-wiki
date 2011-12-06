@@ -2,11 +2,13 @@ A Cascalog query is defined by a list of output vars and a list of predicates th
 
 Let's use the following query as an example. This query gets all the words from the sentence dataset that occur more than 5 times:
 
+```clojure
     (<- [?word]
          (sentence ?sentence)
          (split ?sentence :> ?word)
          (c/count ?count)
          (> ?count 5))
+```
 
 Every Cascalog query is executed in 3 steps: 
 

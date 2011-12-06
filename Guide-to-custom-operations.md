@@ -12,33 +12,43 @@ Let's go into each of these in a bit more depth.
 
 A cascalog generator appears within a query as a list with the generator var, following by a number of output variables equal to the generator's tuple fields. A generator with two output fields looks like this:
 
+```clojure
     (<- [?a ?b]
         (generator ?a ?b))
+```
 
 Cascalog allows for three types of generators:
 
 **Clojure Sequences**: These are the simplest form of generator, and are ideal for testing. For example:
 
+```clojure
     (def generator-seq [["a" 1]
                         ["b" 2]])
 
     (<- [?a ?b] (generator-seq ?a ?b))
+```
 
 Results in:
 
+```clojure
     ["a" 1]
     ["b" 2]
+```
 
 **Existing Queries, defined by <-**: Queries are eminently composable; very complex workflows can be decomposed into multiple subqueries, allowing for solid, abstract design. For example, re-using `generator-seq` from above:
 
+```clojure
     (let [subquery (<- [?a ?b] (generator-seq ?a ?b))]
       (<- [?also-a ?also-b]
           (subquery ?also-a ?also-b)))
+```
 
 Results in, as before:
 
+```clojure
     ["a" 1]
     ["b" 2]
+```
 
 **Cascading Taps**: These taps process data from a [wide range of input sources](http://www.cascading.org/1.2/userguide/html/ch03s03.html) into tuple format. Most production workflows will make heavy use of these taps as the initial data source for low-level queries.
 
@@ -52,21 +62,27 @@ As an example, for a file `/some/textfile.txt` with the following lines of text:
 
 The following query:
 
+```clojure
     (let [text-tap (hfs-textline "/some/textfile.txt")]
       (<- [?textline]
           (text-tap ?textline)))
+```
 
 Would generate these 1-tuples:
 
+```clojure
     ["Rage -- Goddess, sing the rage of Peleus' son Achilles,"]
     ["murderous, doomed, that cost the Achaeans countless losses,"]
     ["hurling down to the house of Death so many sturdy souls,"]
+```
 
 For the following operation examples, we'll make use of the following "test" dataset of 2-tuples, generated from a clojure sequence:
 
+```clojure
     (def test-tap [["a" 1] 
                    ["b" 2]
                    ["a" 3]])
+```
 
 ## Operations ##
 
@@ -76,56 +92,74 @@ Custom operations return tuples. A tuple is just a vector of values. So `[1 2 3]
 
 e.g.
 
+```clojure
         (defmapop add-2-fields [x] [1 2]) 
 
         (<- [?a ?b ?c] (test-tap _ ?a) (add-2-fields ?a :> ?b ?c) 
+```
 
 Results in: 
 
+```clojure
         [1 1 2] 
         [2 1 2] 
         [3 1 2] 
+```
 
 **deffilterop**: Defines a custom operation which only keeps tuples for which this operation returns true. 
 
+```clojure
         (deffilterop is-2? [x] (= x 2)) 
 
         (<- [?a] (test-tap ?a ?b) (is-2? ?b)) 
+```
 
 Results in: 
 
+```clojure
         ["b"] 
+```
 
 Note that filtering can also be accomplished by defining static variables within some query. For example, the above query could be replaced with 
 
+```clojure
         (<- [?a] (test-tap ?a 2))
+```
 
 and produce identical results.
 
 **defmapcatop**: Defines a custom operation which creates multiple tuples for a given input. Return should be a *seq of tuples*. `[ [1 2] ]` would be interpreted as having one 2-tuple returned, while `[1 2]` would be interpreted as being two 1-tuples returned. (One sign that you've forgotten to wrap your tuples in a seq is an error message noting that the operation added the wrong number of fields.)
 
+```clojure
         (defmapcatop two-more-tuples [x] [ [(inc x)] [(+ 2 x)] ]) 
 
         (<- [?a ?b ?c] (test-tap ?a ?b) (two-more-tuples ?b :> ?c)) 
+```
 
 Results in:
 
+```clojure
         ["a" 1 2]
         ["a" 1 3]
         ["b" 2 3]
         ["b" 2 4]
         ["a" 3 4]
         ["a" 3 5]
+```
 
 **Vanilla Clojure functions** can also be used as operations. When given no output vars they work as `filterop`s, and when given output vars they work as `mapop`s. The drawback of using a regular Clojure function is that they're more verbose to use dynamically. For example:
 
+
+```clojure
     (defn mk-query [op]
       (<- [?a ?b]
           (test-tap _ ?a)
           (op ?a :> ?b)))
+```
 
 The `op` passed to `mk-query` must either be defined using one of Cascalog's `def*` macros or be a var. This is because Cascalog uses the var name of functions to distribute the operation across the cluster. The `def*` macros deal with this under the hood, but vanilla clojure clojure functions must employ the `#'` macro to retrieve a symbol's var. For example:
 
+```clojure
     ;; With a vanilla clojure function:
     (mk-query #'odd?) ; valid
     (mk-query odd?)   ; will result in error
@@ -133,19 +167,24 @@ The `op` passed to `mk-query` must either be defined using one of Cascalog's `de
     ;; Or, wrapped in a defmapop:
     (defmapop valid-odd? [x] (odd? x))
     (mk-query valid-odd?) ; valid
+```
 
 ## Aggregators ##
 
 **defbufferop**: Defines an aggregator which receives all the tuples for the group in a single seq. Buffers cannot be used with any other buffers/aggregators in a query. Buffers operate reduce-side. Buffers should return a seq of tuples.
 
+```clojure
         (defbufferop dosum [tuples] [(reduce + (map first tuples))]) 
 
         (<- [?a ?sum] (test-tap ?a ?b) (dosum ?b :> ?sum)) 
+```
 
 Results in: 
 
+```clojure
         ["a" 4] 
         ["b" 2] 
+```
 
 **defaggregateop**: Defines an aggregator which must be written in a more restricted way. Aggregators **can** be used with other aggregators in a query (i.e., you can do a count and sum of a group at same time). Aggregators operate reduce-side. Aggregators consist of code for  "initializing", "aggregating", and "extracting a result". Aggregators return a seq of tuples. Aggregators have the same performance as buffers but are more composable, so aggregators are preferable to buffers when possible. Aggregators return a seq of tuples.
 
@@ -158,30 +197,38 @@ state value. In this case, it receives a 1-tuple containing the next value in th
 
 The code body with 1 parameter is the "return" function. It takes in the totally accumulated state and returns a seq of tuples as output. In this case it just returns the state as-is. `[state]` is equivalent to saying `[ [state] ]`.
 
+```clojure
     (defaggregateop dosum
       ([] 0)
       ([state val] (+ state val))
       ([state] [state]))
 
       (<- [?a ?sum] (test-tap ?a ?b) (dosum ?b :> ?sum)) 
+```
 
 The results of the `aggregateop` version of `dosum` are identical to the `bufferop` version:
 
+```clojure
         ["a" 4] 
         ["b" 2]
-    
+```
+
 **defparallelagg**: Defines an even more restricted aggregator that is defined using two functions. These aggregators are more efficient as  they make use of map-side combiner optimizations. parallelaggs can be composed with other parallelaggs/regular aggregators. However, when composed with regular aggregators the entire computation is moved reduce-side. 
 
 The init function is run once per tuple, and the combine function is run on the results of inits and other combines until only one value is left.
 
+```clojure
     (defparallelagg dosum :init-var #'identity :combine-var #'+)
 
     (<- [?a ?sum] (test-tap ?a ?b) (dosum ?b :> ?sum)) 
+```
 
 Again, our results are the same:
 
+```clojure
         ["a" 4] 
         ["b" 2]
+```
 
 ## TO BE CONTINUED ##
 
