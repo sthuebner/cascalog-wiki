@@ -37,6 +37,7 @@ Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 - [Generator as filter / negations](http://groups.google.com/group/cascalog-user/browse_thread/thread/17bbe772159b8ffa)
 - [Catching errors with traps](http://groups.google.com/group/cascalog-user/browse_thread/thread/f9257bf8002e053a)
 - [Testing Cascalog with Midje](http://sritchie.github.com/2011/09/30/testing-cascalog-with-midje.html)
+- [Testing Cascalog with Midje, Part 2](http://sritchie.github.com/2012/01/22/cascalog-testing-20.html)
 
 ## Documentation Todo
 
