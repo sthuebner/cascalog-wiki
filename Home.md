@@ -17,6 +17,7 @@ Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 ## Documentation
 
 - [[Getting Started]]
+- [[JCascalog]]
 - [[Defining and executing queries]]
 - [[How Cascalog executes a query]]
 - [[Guide to custom operations]]
