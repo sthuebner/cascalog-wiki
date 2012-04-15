@@ -321,7 +321,7 @@ Api.execute(
 
 ## Api static methods
 
-The bulk of the JCascalog API are static methods in the `JCascalog.Api` class. These methods wrap functionality available in the [api.clj](https://github.com/nathanmarz/cascalog/blob/master/src/clj/cascalog/api.clj) and [ops.clj](https://github.com/nathanmarz/cascalog/blob/master/src/clj/cascalog/ops.clj) files. Look to those files for documentation on the functions available. Some other functions to note:
+The bulk of the JCascalog API are static methods in the `jcascalog.Api` class. These methods wrap functionality available in the [api.clj](https://github.com/nathanmarz/cascalog/blob/master/src/clj/cascalog/api.clj) and [ops.clj](https://github.com/nathanmarz/cascalog/blob/master/src/clj/cascalog/ops.clj) files. Look to those files for documentation on the functions available. Some other functions to note:
 
 1. `union` and `combine` are used to concatenate two or more separate sets of data into one set of data. They require that each dataset contain tuples with the same number of fields. `union` will in addition unique the tuples from the sets of data.
 2. `firstN`: This functions takes in a subquery, a number of tuples, and optional sorting arguments and returns the "first n" tuples from the set it sees. The implementation is extremely efficient and works across arbitrarily sized datasets.
