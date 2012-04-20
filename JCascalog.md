@@ -48,11 +48,11 @@ Api.execute(
     ));
 ```
 
-This query works like like:
+This query works like this:
 
 1. The `Subquery` says "I emit tuples with one field called '?person'"
 2. It reads from the AGE dataset and binds the first field to "?person" and the second field to "?age"
-3. The second predicate creates a filter over the tuples. It says "Only keep tuples for which the value of '?age' is less than 30 years old"
+3. The second predicate creates a filter over the tuples. It says "Only keep tuples for which the value of '?age' is less than 30"
 
 This query only prints out the names of the people. If you want to emit 2-tuples that contain the age as well, you simply add "?age" to the output fields declaration, like so:
 
@@ -91,11 +91,11 @@ Api.execute(
 
 The interesting thing in this query is the second predicate doing the Multiply operation. This predicate says:
 
-1. I will execute the `Multiply` function
+1. I execute the `Multiply` function
 2. The function takes as input the `?age` variable and the number `2`.
 3. The function emits a single output variable called `?double-age`.
 
-Unlike the previous predicates you saw, this predicate takes in a set of input fields and output fields.
+Unlike the previous predicates you saw, this predicate takes in a set of input fields and a set of output fields.
 
 There are two kinds of fields you can use in Cascalog:
 
@@ -291,7 +291,7 @@ Api.execute(
 
 The only difference with the last query is the addition of the "Count" predicate.
 
-You might be wondering "Where is it doing a GROUP-BY in this query?". Grouping is implicit in Cascalog. You can read more about how grouping and query execution works [here](https://github.com/nathanmarz/cascalog/wiki/How-cascalog-executes-a-query).
+You might be wondering "Where is it doing a GROUP-BY in this query?". Grouping is implicit in Cascalog. You can read more about how grouping and aggregation works [here](https://github.com/nathanmarz/cascalog/wiki/How-cascalog-executes-a-query).
 
 There are 6 kinds of operations you can implement in JCascalog:
 
