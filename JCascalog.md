@@ -8,7 +8,7 @@ The goals of JCascalog are three-fold:
 
 ## Basics
 
-Let's take a look at some simple queries. You can see the datasets we'll be querying [here](https://github.com/nathanmarz/cascalog/tree/master/src/clj/cascalog/playground.clj), and all the example code here is available in [this file](https://github.com/nathanmarz/cascalog/tree/master/src/jvm/jcascalog/example/Examples.java).
+Let's take a look at some simple queries. You can see the datasets we'll be querying [here](https://github.com/nathanmarz/cascalog/tree/master/src/clj/cascalog/playground.clj), and all the example code here is available in [this file](https://github.com/nathanmarz/cascalog/tree/master/src/jvm/jcascalog/example/Examples.java). Here's a query that gets all the people that are 25 years old:
 
 ```java
 Api.execute(
