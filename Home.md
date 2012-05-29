@@ -24,7 +24,7 @@ Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 - [[Predicate operators]]
 - [[Methods for handling wide sources]]
 - [[Joins in Cascalog]]
-- [[Built-in operations and query builders]]
+- [[Built-in operations]]
 - [[Predicate macros]]
 
 ## Articles around the web
