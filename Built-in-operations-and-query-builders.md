@@ -9,6 +9,15 @@ A filter that is equivalent to boolean AND operator such that every function in 
     ((c/all #'even? #'big?) !a !b)))
 ```
 
+# any
+A filter such that it returns true if any of the passed in function returns true.
+
+```clojure
+(<- [!a !b]
+    (nums !a !b)
+    ((c/any #'even? #'big?) !a !b)))
+```
+
 ## !count
 `!count` takes in one input variable. Null values are interpreted as "0" and non-null values are interpreted as "1". !count returns the sum of those interpreted values. `!count` counts the number of _non-null values_ for that variable.
 
@@ -26,4 +35,3 @@ Similar to `!count`, but count values regardless whether they are null or not.
 (<- [?count] 
     (source !val) 
     (c/count !val :> ?count))
-
