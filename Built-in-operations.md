@@ -21,6 +21,21 @@ A filter such that it returns true if any of the passed in function returns true
 ## avg
 
 ## comp
+Composition of functions. Executes function from right to left.
+
+```clojure
+(<- [!y]
+    (nums !x)
+    ((c/comp #'double #'exp) !x :> !y)))
+```
+is equivalent to:
+
+```clojure
+(<- [!y]
+    (nums !x)
+    (#'exp !x :> !x1)
+    (#'double !x1 :> !y))
+```
 
 ## !count
 `!count` takes in one input variable. Null values are interpreted as "0" and non-null values are interpreted as "1". !count returns the sum of those interpreted values. `!count` counts the number of _non-null values_ for that variable.
