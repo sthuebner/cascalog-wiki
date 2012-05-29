@@ -46,6 +46,7 @@ Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 
 - [[Option predicates]]
 - [[Building queries dynamically]]
+- [[Query builders]]
 - [[Global sorting]]
 - [[Negations and generators-as-sets]]
 - [[Tuple Serialization]]
