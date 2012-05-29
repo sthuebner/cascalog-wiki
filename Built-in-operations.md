@@ -19,6 +19,13 @@ A filter such that it returns true if any of the passed in function returns true
 ```
 
 ## avg
+Average.
+
+```clojure
+(<- [?avg]
+    (src ?user ?cnt)
+    (c/avg ?cnt :> ?avg)))
+```
 
 ## comp
 Composition of functions. Executes function from right to left.
@@ -57,8 +64,15 @@ Similar to `!count`, but count values regardless whether they are null or not.
 ```
 
 ## distinct-count
+Similar to `count`, but only count distinct items. Null values would be counted as one.
 
 ## each
+Apply the specified function to each of the input variable. Number of inputs must equal number of output fields if the function is expected to return a value, otherwise there is no output variables.
+
+```clojure
+((c/each #'double) ?a ?b ?c :> ?x ?y ?z)
+```
+Would apply `double` to `?a :> ?x`, `?b :> ?y`, and `?c :> ?z`.
 
 ## first-n
 
