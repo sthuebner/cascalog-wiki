@@ -18,6 +18,10 @@ A filter such that it returns true if any of the passed in function returns true
     ((c/any #'even? #'big?) !a !b)))
 ```
 
+## avg
+
+## comp
+
 ## !count
 `!count` takes in one input variable. Null values are interpreted as "0" and non-null values are interpreted as "1". !count returns the sum of those interpreted values. `!count` counts the number of _non-null values_ for that variable.
 
@@ -35,3 +39,36 @@ Similar to `!count`, but count values regardless whether they are null or not.
 (<- [?count] 
     (source !val) 
     (c/count !val :> ?count))
+```
+
+## distinct-count
+
+## each
+
+## first-n
+
+## fixed-sample
+
+## fixed-sample-agg
+
+## juxt
+
+## lazy-generator
+
+## limit
+
+## limit-rank
+
+## max
+
+## min
+
+## negate
+
+## partial
+
+## sum
+
+## with-timeout
+
+## [re-parse [pattern]]
