@@ -85,6 +85,16 @@ Would apply `double` to `?a :> ?x`, `?b :> ?y`, and `?c :> ?z`.
 ## lazy-generator
 
 ## limit
+A buffer that does most work in mappers to return the top N tuples. 
+
+For example, to get the last two alphabetically-sorted person a person followed.
+
+```clojure
+(<- [?person ?last-followed]
+    (follows ?person ?followed)
+    (:sort ?times) (:reverse true)
+    (c/limit [2] ?followed :> ?last-followed))
+```
 
 ## limit-rank
 
