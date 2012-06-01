@@ -85,7 +85,7 @@ Would apply `double` to `?a :> ?x`, `?b :> ?y`, and `?c :> ?z`.
 ## lazy-generator
 
 ## limit
-A buffer that does most work in mappers to return the top N tuples. 
+An efficient buffer that does most work in mappers to return the top N tuples. 
 
 Some examples using the playground: 
 
