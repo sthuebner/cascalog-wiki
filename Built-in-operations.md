@@ -87,16 +87,42 @@ Would apply `double` to `?a :> ?x`, `?b :> ?y`, and `?c :> ?z`.
 ## limit
 A buffer that does most work in mappers to return the top N tuples. 
 
-For example, to get the last two alphabetically-sorted person a person followed.
+Some examples using the playground: 
+
+Get the top 3 integers: 
 
 ```clojure
-(<- [?person ?last-followed]
-    (follows ?person ?followed)
-    (:sort ?times) (:reverse true)
-    (c/limit [2] ?followed :> ?last-followed))
+(?<- (stdout) [?n-out]
+     (integer ?n) (:sort ?n) (:reverse true) 
+     (c/limit [3] ?n :> ?n-out)) 
+```
+
+Get at most one friend for each person: 
+
+```clojure
+(?<- (stdout) [?p ?f-out] 
+     (follows ?p ?p2) 
+     (c/limit [1] ?p2 :> ?f-out)) 
+```
+
+Get 5 follows relationships: 
+
+```clojure
+(?<- (stdout) [?p-out ?p2-out] 
+     (follows ?p ?p2) (c/limit [5] ?p ?p2 :> ?p-out ?p2-out)) 
 ```
 
 ## limit-rank
+Similar to `limit` but also emit the "rank" of each item (useful when sorting): 
+
+Get the top 3 integers with rank: 
+
+```clojure
+(?<- (stdout) [?n-out ?r] 
+     (integer ?n) 
+     (:sort ?n) (:reverse true)
+     (c/limit-rank [3] ?n :> ?n-out ?r)) 
+```
 
 ## max
 
