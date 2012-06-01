@@ -75,6 +75,21 @@ Apply the specified function to each of the input variable. Number of inputs mus
 Would apply `double` to `?a :> ?x`, `?b :> ?y`, and `?c :> ?z`.
 
 ## first-n
+Returns a subquery getting the first n elements. Can pass in sorting arguments.
+
+Say `wordcount-tap` is a subquery with fields `[?word ?count]` and we want to pull the top 100 words by count. Here's how we do that with `first-n`:
+
+```clojure
+(defn top-100 [file-path]
+  (c/first-n (wordcount-tap file-path)
+             100
+             :sort ["?count"]
+             :reverse true))
+
+(defmain Top100 [tuple-path results-path]
+  (?- (hfs-textline results-path)
+      (top-100 tuple-path)))
+```
 
 ## fixed-sample
 
