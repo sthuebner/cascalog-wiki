@@ -26,6 +26,7 @@ Cascalog is hosted on Github at [[http://github.com/nathanmarz/cascalog]].
 - [[Joins in Cascalog]]
 - [[Built-in operations]]
 - [[Predicate macros]]
+- [[Cascalog and Hadoop Security]]
 
 ## Articles around the web
 
